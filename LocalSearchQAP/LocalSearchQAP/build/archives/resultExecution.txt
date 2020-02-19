@@ -86,3 +86,25 @@ Average found cost: -12%
 Median: -12%
 Standard deviation of cost: 20646
 --------------------------------------------------
+tai80a.dat
+REPORT
+--------------------------------------------------
+Average elapsed time: 2.28197 ms
+Percentual of optimal solutions found: 0%
+Min found cost: -10%
+Max found cost: -7%
+Average found cost: -9%
+Median: -10%
+Standard deviation of cost: 83963.3
+--------------------------------------------------
+tai80a.dat
+REPORT
+--------------------------------------------------
+Average elapsed time: 135.289 ms
+Percentual of optimal solutions found: 0%
+Min found cost: -11%
+Max found cost: -10%
+Average found cost: -10%
+Median: -10%
+Standard deviation of cost: 33874.6
+--------------------------------------------------
