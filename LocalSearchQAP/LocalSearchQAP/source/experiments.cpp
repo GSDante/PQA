@@ -12,7 +12,7 @@ double calcVariancia ( std::vector<int> valores, double media )
 
 double calcDistanciamento ( int valor, int referencia )
 {
-	return ( (valor*100.00)/referencia )-100.00;
+	return ( ((valor-referencia)*100)/referencia );
 }
 
 void calcEstatisticas ( Dados dados )
