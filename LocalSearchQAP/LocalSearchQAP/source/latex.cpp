@@ -8,7 +8,7 @@ std::string montar_cabecalho ()
 	cab = "\\begin{table}[H]\n";
     cab += "\\centering\n";
     cab += "\\begin{tabular}{c|c|c|c|c|c|c|c|} \\hline \\hline\n";
-    cab += "INST & N & AET(ms) & POSF(\\%) & DMinFC(\\%) & DMaxFC(\\%) & DAFC(\\%) & SDC \\\\ \\hline \\hline\n";
+    cab += "INST & AET(ms) & POSF(\\%) & DMinFC(\\%) & DMaxFC(\\%) & DAFC(\\%) & SDC \\\\ \\hline \\hline\n";
 
     return cab;
 }

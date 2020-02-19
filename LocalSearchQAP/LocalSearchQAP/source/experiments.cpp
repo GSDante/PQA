@@ -48,7 +48,6 @@ void calcEstatisticas ( Dados dados )
 
 	out << dados.instance << "\n";
 	out << "REPORT\n--------------------------------------------------\n";
-	out << "Instance size: " << dados.tamanho << std::endl;
 	out << "Average elapsed time: " << media_tempo << " ms" << std::endl;
 	out << "Percentual of optimal solutions found: " << percentual_optimal_solutions_found << "%" << std::endl;
 	out << "Min found cost: " << calcDistanciamento(min_cost, dados.optimal_cost) << "%" << std::endl;
