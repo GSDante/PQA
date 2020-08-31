@@ -10,6 +10,7 @@ using namespace std;
 
 int main(int argc, char const *argv[])
 {
+	std::srand(std::time(0));
 	if (argc < 2)
 	{
 		std::cerr << "Usage: qap Instance Solution [outputFile] [timeLimit]" << std::endl;

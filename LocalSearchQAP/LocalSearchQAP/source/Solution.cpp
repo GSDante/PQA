@@ -22,7 +22,7 @@ Solution::Solution(int n, int** flow, int** dist,int* solution){
 	this->solution.insert(this->solution.begin(),solution,solution+n);
 
 	
-	int cost = 0;
+	double cost = 0;
 	
 
 	for(int i = 0; i < n; i++)
@@ -48,7 +48,7 @@ Solution::Solution(int n, int** flow, int** dist,vector<int> solution){
 	
 	this->solution = solution;
 	
-	int cost = 0;
+	double cost = 0;
 	
 
 	for(int i = 0; i < n; i++)
@@ -69,7 +69,7 @@ void Solution::first_solution(){
 
 	//std::srand ( unsigned ( std::time(0) ) );
 	shuffle(this->solution.begin(),this->solution.end(),std::default_random_engine(seed));
-	int cost = 0;
+	double cost = 0;
 	
 
 	for(int i = 0; i < n; i++)
@@ -103,11 +103,11 @@ int** Solution::get_matrix_of_distances(){
 	return this->dist;
 }
 
-int Solution::get_cost(){
+double Solution::get_cost(){
 	return this->cost;
 }
 
-void Solution::set_cost(int new_cost){
+void Solution::set_cost(double new_cost){
 	this->cost = new_cost;
 }
 
@@ -137,6 +137,26 @@ bool Solution::operator <(Solution b){
 	if(get_cost() < b.get_cost()){
 		return true;
 	}
+	return false;
+}
+
+bool Solution::operator ==( Solution b){
+	for(int i = 0 ; i < n ; i++){
+		if( this->solution[i] != b[i]){
+			return false;
+		}
+	}
+
+	return true;
+}
+
+bool Solution::operator !=( Solution b){
+	for(int i = 0 ; i < n ; i++){
+		if( this->solution[i] != b[i]){
+			return true;
+		}
+	}
+
 	return false;
 }
 
@@ -178,3 +198,5 @@ void Solution::print_solution(){
 		std::cout << *i << " ";
 	}
 }
+
+

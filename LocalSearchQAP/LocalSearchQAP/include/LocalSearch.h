@@ -28,8 +28,22 @@ Solution local_search();
 Solution local_search_aux( Solution start_solution[] );
 
 // double* pertubation(double cur_solution[],double k);
+Solution path_relinking();
 
 Solution iterative_local_search();
+Solution ils_path_relinking();
+Solution ils_path_relinking_forward();
+Solution ils_path_relinking_backward();
+Solution ils_path_relinking_forward(int);
+Solution ils_path_relinking_backward(int);
+Solution ils_path_relinking_forward(Solution,Solution, int x);
+Solution ils_path_relinking_backward(Solution,Solution,int x );
+Solution ils_path_relinking_back_and_forward();
+
+std::vector<int> hamming_distance(Solution ini , Solution guide);
+void move(Solution& ini, Solution& guide, std::vector<int>& Moves);
+
+
 	
 void run_experiments(std::string instance,std::string solution);
 #endif

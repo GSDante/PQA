@@ -1,88 +1,41 @@
-tai20a.dat
+
+--------------------------------------------------
+tai80b.dat
 REPORT
 --------------------------------------------------
-Average elapsed time: 0.00273094 ms
+Average elapsed time: 2.32356 ms
 Percentual of optimal solutions found: 0%
-Min found cost: 3%
-Max found cost: 9%
-Average found cost: 6%
-Median: 5%
-Standard deviation of cost: 11039.2
+Min found cost: 0%
+Max found cost: 11.1783%
+Average found cost: 6.78749%
+Median: 100%
+Standard deviation of cost: 1.91463
+Median :6.48687
+Best Cost Known :6.48687
 --------------------------------------------------
-tai20a.dat
+tai80b.dat
 REPORT
 --------------------------------------------------
-Average elapsed time: 0.0449801 ms
+Average elapsed time: 122.816 ms
 Percentual of optimal solutions found: 0%
-Min found cost: 2%
-Max found cost: 5%
-Average found cost: 3%
-Median: 3%
-Standard deviation of cost: 5240.5
+Min found cost: 0%
+Max found cost: 4.5118%
+Average found cost: 3.08972%
+Median: 100%
+Standard deviation of cost: 0.827694
+Median :2.9956
+Best Cost Known :2.9956
 --------------------------------------------------
-tai25a.dat
+tai80b.dat
 REPORT
 --------------------------------------------------
-Average elapsed time: 0.00775252 ms
+Average elapsed time: 240.137 ms
 Percentual of optimal solutions found: 0%
-Min found cost: 3%
-Max found cost: 7%
-Average found cost: 5%
-Median: 5%
-Standard deviation of cost: 14896.6
---------------------------------------------------
-tai25a.dat
-REPORT
---------------------------------------------------
-Average elapsed time: 0.157822 ms
-Percentual of optimal solutions found: 0%
-Min found cost: 1%
-Max found cost: 4%
-Average found cost: 3%
-Median: 3%
-Standard deviation of cost: 6409.38
---------------------------------------------------
-tai30a.dat
-REPORT
---------------------------------------------------
-Average elapsed time: 0.0188914 ms
-Percentual of optimal solutions found: 0%
-Min found cost: 3%
-Max found cost: 23%
-Average found cost: 5%
-Median: 5%
-Standard deviation of cost: 61821.6
---------------------------------------------------
-tai30a.dat
-REPORT
---------------------------------------------------
-Average elapsed time: 0.463746 ms
-Percentual of optimal solutions found: 0%
-Min found cost: 2%
-Max found cost: 3%
-Average found cost: 3%
-Median: 3%
-Standard deviation of cost: 6513.15
---------------------------------------------------
-tai60a.dat
-REPORT
---------------------------------------------------
-Average elapsed time: 0.530469 ms
-Percentual of optimal solutions found: 0%
-Min found cost: -12%
-Max found cost: -10%
-Average found cost: -11%
-Median: -11%
-Standard deviation of cost: 47625.6
---------------------------------------------------
-tai60a.dat
-REPORT
---------------------------------------------------
-Average elapsed time: 24.4057 ms
-Percentual of optimal solutions found: 0%
-Min found cost: -12%
-Max found cost: -12%
-Average found cost: -12%
-Median: -12%
-Standard deviation of cost: 17353.1
+Min found cost: 0%
+Max found cost: 3.70861%
+Average found cost: 2.46846%
+Median: 100%
+Standard deviation of cost: 0.778159
+Median :2.5858
+Best Cost Known :2.5858
 --------------------------------------------------

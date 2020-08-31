@@ -9,11 +9,12 @@
 
 using namespace std;
 
+
 class Solution
 {
 private:
 	int n;
-	int cost;
+	double cost;
 	vector<int> solution ;
 	int ** flow; 
 	int ** dist;
@@ -33,7 +34,8 @@ public:
 	bool operator <(Solution b);
 	void operator= (Solution b);
 	int& operator[](int index);
-	
+	bool operator ==(Solution b);
+	bool operator !=(Solution b);
 
 	//Getters e Setters
 	int get_Size();
@@ -44,9 +46,9 @@ public:
 
 	int** get_matrix_of_distances();
 
-	int get_cost();
+	double get_cost();
 
-	void set_cost(int new_cost);
+	void set_cost(double new_cost);
 
 	void set_solution(int* new_solution);
 
@@ -60,4 +62,6 @@ public:
 
 
 };
+
+
 #endif

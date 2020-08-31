@@ -58,8 +58,6 @@ void read_instance(std::string instance,std::string solution )
 
 	}
 
-	
-
 }
 
 
@@ -100,7 +98,7 @@ Solution local_search()
  	best_solution.first_solution();
 	
  	Solution cur_solution(n,flow,dist,opt);
- 	cur_solution = best_solution;
+ 	cur_solution.first_solution();
 
   	bool improve = true;
 
@@ -128,8 +126,6 @@ Solution local_search()
  		best_neighbor(candidate);
 	}
 
- 	QAP problem(n,dist,flow,best_solution);
-
  	return best_solution;
 }
 
@@ -139,8 +135,6 @@ Solution local_search_aux( Solution cur_solution)
 	
  	Solution best_solution(n,flow,dist,opt);
  	best_solution.first_solution();
-
-	
 
   	bool improve = true;
 
@@ -179,6 +173,48 @@ Solution local_search_aux( Solution cur_solution)
 }
 
 //Busca local iterativa 
+
+Solution path_relinking(){
+	
+	Solution start_solution(n,flow,dist,opt);
+ 	start_solution.first_solution();
+
+ 	Solution last_solution(n,flow,dist,opt);
+ 	last_solution.first_solution();
+
+ 	//Assumindo que o melhor por enquanto é a primeira solução
+ 	Solution best_solution(n,flow,dist,opt);
+ 	best_solution = start_solution;
+
+ 	// Candidato que ira representar o vizinho da solução
+  	Solution candidate(n,flow,dist,opt);
+  	candidate = start_solution;
+
+ 	for (int i = 0; i < n; ++i)
+ 	{
+ 		if(candidate[i] != last_solution[i])
+ 		{
+ 			//Varrendo o vetor a partir do valor diferente entre a start e last, caso ache, ocorre a troca
+ 			for (int j = i; j < n; ++j)
+ 			{
+ 				if(candidate[j] == last_solution[i]){
+ 					candidate.swap_solution(candidate[i],candidate[j]);
+ 				}
+ 			}
+ 			if( best_solution > candidate){
+ 				best_solution = candidate;
+ 			}
+ 		}
+ 	}
+
+ 	// Ultimo dos vizinho sendo testado
+ 	if (best_solution > last_solution)
+ 	{
+ 		best_solution = last_solution;
+ 	}
+
+ 	return best_solution;
+}
 
 Solution iterative_local_search()
 {
@@ -228,54 +264,592 @@ Solution iterative_local_search()
 	
 }
 
+Solution ils_path_relinking(){
+	Solution start_solution = iterative_local_search();
+ 	Solution last_solution = iterative_local_search();
+
+ 	//Assumindo que o melhor por enquanto é a primeira solução
+ 	Solution best_solution(n,flow,dist,opt);
+ 	best_solution = start_solution;
+
+ 	// Candidato que ira representar o vizinho da solução
+  	Solution candidate(n,flow,dist,opt);
+  	candidate = start_solution;
+
+ 	for (int i = 0; i < n; ++i)
+ 	{
+ 		if(candidate[i] != last_solution[i])
+ 		{
+ 			//Varrendo o vetor a partir do valor diferente entre a start e last, caso ache, ocorre a troca
+ 			for (int j = i; j < n; ++j)
+ 			{
+ 				if(candidate[j] == last_solution[i]){
+ 					candidate.swap_solution(candidate[i],candidate[j]);
+ 				}
+ 			}
+ 			if( best_solution > candidate){
+ 				best_solution = candidate;
+ 			}
+ 		}
+ 	}
+
+ 	// Ultimo dos vizinho sendo testado
+ 	if (best_solution > last_solution)
+ 	{
+ 		best_solution = last_solution;
+ 	}
+
+ 	return best_solution;
+}
+
+Solution ils_path_relinking_forward(){
+	Solution start_solution = iterative_local_search();
+ 	Solution last_solution = iterative_local_search();
+
+ 	Solution ini(n,flow,dist,opt);
+ 	Solution guide(n,flow,dist,opt);
+
+ 	if (start_solution < last_solution)
+ 	{
+ 		ini = last_solution;
+ 		guide = start_solution;
+ 	}else{
+ 		ini = start_solution;
+ 		guide = last_solution;
+ 	}
+
+ 	//Assumindo que o melhor por enquanto é a primeira solução
+ 	Solution best_solution(n,flow,dist,opt);
+ 	best_solution = ini;
+
+ 	// Candidato que ira representar o vizinho da solução
+  	Solution candidate(n,flow,dist,opt);
+  	candidate = ini;
+
+ 	for (int i = 0; i < n; ++i)
+ 	{
+ 		if(candidate[i] != guide[i])
+ 		{
+ 			//Varrendo o vetor a partir do valor diferente entre a start e last, caso ache, ocorre a troca
+ 			for (int j = i; j < n; ++j)
+ 			{
+ 				if(candidate[j] == guide[i]){
+ 					candidate.swap_solution(candidate[i],candidate[j]);
+ 				}
+ 			}
+ 			if( best_solution > candidate){
+ 				best_solution = candidate;
+ 			}
+ 		}
+ 	}
+
+ 	// Ultimo dos vizinho sendo testado
+ 	if (best_solution > guide)
+ 	{
+ 		best_solution = guide;
+ 	}
+
+ 	return best_solution;
+}
+
+Solution ils_path_relinking_backward(){
+	Solution start_solution = iterative_local_search();
+ 	Solution last_solution = iterative_local_search();
+
+ 	Solution ini(n,flow,dist,opt);
+ 	Solution guide(n,flow,dist,opt);
+
+ 	if (start_solution < last_solution)
+ 	{
+ 		ini = start_solution;
+ 		guide = last_solution;
+ 	}else{
+ 		ini = last_solution;
+ 		guide = start_solution;
+ 	}
+
+ 	//Assumindo que o melhor por enquanto é a primeira solução
+ 	Solution best_solution(n,flow,dist,opt);
+ 	best_solution = ini;
+
+ 	// Candidato que ira representar o vizinho da solução
+  	Solution candidate(n,flow,dist,opt);
+  	candidate = ini;
+
+ 	for (int i = 0; i < n; ++i)
+ 	{
+ 		if(candidate[i] != guide[i])
+ 		{
+ 			//Varrendo o vetor a partir do valor diferente entre a start e last, caso ache, ocorre a troca
+ 			for (int j = i; j < n; ++j)
+ 			{
+ 				if(candidate[j] == guide[i]){
+ 					candidate.swap_solution(candidate[i],candidate[j]);
+ 				}
+ 			}
+ 			if( best_solution > candidate){
+ 				best_solution = candidate;
+ 			}
+ 		}
+ 	}
+
+ 	// Ultimo dos vizinho sendo testado
+ 	if (best_solution > guide)
+ 	{
+ 		best_solution = guide;
+ 	}
+
+ 	return best_solution;
+}
+
+Solution ils_path_relinking_forward(int x){
+	Solution start_solution = iterative_local_search();
+ 	Solution last_solution = iterative_local_search();
+
+ 	Solution ini(n,flow,dist,opt);
+ 	Solution guide(n,flow,dist,opt);
+
+ 	if (start_solution < last_solution)
+ 	{
+ 		ini = last_solution;
+ 		guide = start_solution;
+ 	}else{
+ 		ini = start_solution;
+ 		guide = last_solution;
+ 	}
+
+ 	//Assumindo que o melhor por enquanto é a primeira solução
+ 	Solution best_solution(n,flow,dist,opt);
+ 	best_solution = ini;
+
+ 	// Candidato que ira representar o vizinho da solução
+  	Solution candidate(n,flow,dist,opt);
+  	candidate = ini;
+
+ 	for (int i = 0; i < n*x; ++i)
+ 	{
+ 		if(candidate[i] != guide[i])
+ 		{
+ 			//Varrendo o vetor a partir do valor diferente entre a start e last, caso ache, ocorre a troca
+ 			for (int j = i; j < n; ++j)
+ 			{
+ 				if(candidate[j] == guide[i]){
+ 					candidate.swap_solution(candidate[i],candidate[j]);
+ 				}
+ 			}
+ 			if( best_solution > candidate){
+ 				best_solution = candidate;
+ 			}
+ 		}
+ 	}
+
+ 	// Ultimo dos vizinho sendo testado
+ 	if (best_solution > guide)
+ 	{
+ 		best_solution = guide;
+ 	}
+
+ 	return best_solution;
+}
+
+Solution ils_path_relinking_backward(int x){
+	Solution start_solution = iterative_local_search();
+ 	Solution last_solution = iterative_local_search();
+
+ 	Solution ini(n,flow,dist,opt);
+ 	Solution guide(n,flow,dist,opt);
+
+ 	if (start_solution < last_solution)
+ 	{
+ 		ini = start_solution;
+ 		guide = last_solution;
+ 	}else{
+ 		ini = last_solution;
+ 		guide = start_solution;
+ 	}
+
+ 	//Assumindo que o melhor por enquanto é a primeira solução
+ 	Solution best_solution(n,flow,dist,opt);
+ 	best_solution = ini;
+
+ 	// Candidato que ira representar o vizinho da solução
+  	Solution candidate(n,flow,dist,opt);
+  	candidate = ini;
+
+ 	for (int i = 0; i < n*x; ++i)
+ 	{
+ 		if(candidate[i] != guide[i])
+ 		{
+ 			//Varrendo o vetor a partir do valor diferente entre a start e last, caso ache, ocorre a troca
+ 			for (int j = i; j < n; ++j)
+ 			{
+ 				if(candidate[j] == guide[i]){
+ 					candidate.swap_solution(candidate[i],candidate[j]);
+ 				}
+ 			}
+ 			if( best_solution > candidate){
+ 				best_solution = candidate;
+ 			}
+ 		}
+ 	}
+
+ 	// Ultimo dos vizinho sendo testado
+ 	if (best_solution > guide)
+ 	{
+ 		best_solution = guide;
+ 	}
+
+ 	return best_solution;
+}
+
+Solution ils_path_relinking_forward(Solution start_solution, Solution last_solution){
+
+ 	Solution ini(n,flow,dist,opt);
+ 	Solution guide(n,flow,dist,opt);
+
+ 	if (start_solution < last_solution)
+ 	{
+ 		ini = last_solution;
+ 		guide = start_solution;
+ 	}else{
+ 		ini = start_solution;
+ 		guide = last_solution;
+ 	}
+
+ 	//Assumindo que o melhor por enquanto é a primeira solução
+ 	Solution best_solution(n,flow,dist,opt);
+ 	best_solution = ini;
+
+ 	// Candidato que ira representar o vizinho da solução
+  	Solution candidate(n,flow,dist,opt);
+  	candidate = ini;
+
+ 	for (int i = 0; i < n; ++i)
+ 	{
+ 		if(candidate[i] != guide[i])
+ 		{
+ 			//Varrendo o vetor a partir do valor diferente entre a start e last, caso ache, ocorre a troca
+ 			for (int j = i; j < n; ++j)
+ 			{
+ 				if(candidate[j] == guide[i]){
+ 					candidate.swap_solution(candidate[i],candidate[j]);
+ 				}
+ 			}
+ 			if( best_solution > candidate){
+ 				best_solution = candidate;
+ 			}
+ 		}
+ 	}
+
+ 	// Ultimo dos vizinho sendo testado
+ 	if (best_solution > guide)
+ 	{
+ 		best_solution = guide;
+ 	}
+
+ 	return best_solution;
+}
+
+Solution ils_path_relinking_backward(Solution start_solution, Solution last_solution){
+
+ 	Solution ini(n,flow,dist,opt);
+ 	Solution guide(n,flow,dist,opt);
+
+ 	if (start_solution < last_solution)
+ 	{
+ 		ini = start_solution;
+ 		guide = last_solution;
+ 	}else{
+ 		ini = last_solution;
+ 		guide = start_solution;
+ 	}
+
+ 	//Assumindo que o melhor por enquanto é a primeira solução
+ 	Solution best_solution(n,flow,dist,opt);
+ 	best_solution = ini;
+
+ 	// Candidato que ira representar o vizinho da solução
+  	Solution candidate(n,flow,dist,opt);
+  	candidate = ini;
+
+ 	for (int i = 0; i < n; ++i)
+ 	{
+ 		if(candidate[i] != guide[i])
+ 		{
+ 			//Varrendo o vetor a partir do valor diferente entre a start e last, caso ache, ocorre a troca
+ 			for (int j = i; j < n; ++j)
+ 			{
+ 				if(candidate[j] == guide[i]){
+ 					candidate.swap_solution(candidate[i],candidate[j]);
+ 				}
+ 			}
+ 			if( best_solution > candidate){
+ 				best_solution = candidate;
+ 			}
+ 		}
+ 	}
+
+ 	// Ultimo dos vizinho sendo testado
+ 	if (best_solution > guide)
+ 	{
+ 		best_solution = guide;
+ 	}
+
+ 	return best_solution;
+}
+
+Solution ils_path_relinking_back_and_forward(){
+	Solution start_solution = iterative_local_search();
+ 	Solution last_solution = iterative_local_search();
+
+ 	Solution x_s = ils_path_relinking_backward(start_solution,last_solution);
+ 	Solution x_t = ils_path_relinking_forward(start_solution,last_solution);
+
+ 	if( x_t < x_s ){
+ 		return x_t;
+ 	}else{
+ 		return x_s;
+ 	}
+
+ 	return x_s;
+}
+
+
+
+
+//Calcula a distância simétrica, logo os movimentos serão guardados
+std::vector<int> hamming_distance(Solution ini , Solution guide){
+
+	std::vector<int> Moves;
+
+	for (int i = 0 ; i < guide.get_Size() ; ++i)
+	{
+		if( ini[i] != guide[i])
+		{
+			Moves.push_back(i);
+		}
+	}
+
+	return Moves;
+}
+//Aplica o movimento a partir da solução inicial e da guia
+//E pega o primeiro movimento da lista 
+void move(Solution& ini, Solution& guide, std::vector<int>& Moves){
+	for (int i = Moves[0]; i < guide.get_Size(); ++i)
+ 			{
+ 				if(ini[Moves[0]] == guide[i]){
+ 					ini.swap_solution(ini[Moves[0]],guide[i]);
+ 				}
+ 			}
+}
+
+Solution ils_path_relinking_mixed(){
+	Solution start_solution = iterative_local_search();
+	Solution last_solution = iterative_local_search();
+
+ 	Solution best_solution(n,flow,dist,opt);
+ 	//Variavel auxiliar para alterar o sentido do caminho
+	bool turn = true;
+	std::vector<int> Moves = hamming_distance(start_solution,last_solution); 
+
+	//Guarda a melhor solução
+	if(start_solution < last_solution)
+	{
+		best_solution = start_solution;
+	
+	}else{
+		
+		best_solution = last_solution;
+	
+	}
+
+	//Será feito até que acabe o número de movimentos,ou seja, quando start e last forem iguais
+	while(Moves.size() > 0){
+
+		if(turn){
+			move(start_solution,last_solution,Moves);
+
+			//Guarda a melhor solução até então
+ 			if( best_solution > start_solution){
+ 				best_solution = start_solution;
+ 			}
+
+ 			Moves.erase(Moves.begin());
+ 			turn = false;
+
+		}else{
+			move(last_solution,start_solution,Moves);
+
+			if( best_solution > last_solution){
+ 				best_solution = last_solution;
+ 			}
+
+ 			Moves.erase(Moves.begin());
+ 			turn = true;
+
+		}
+
+	}
+
+	return best_solution;
+
+}
+
 void run_experiments(string instance,string solution){
 
 	read_instance(instance,solution);
 
-	vector<int>custos_ls;
-	vector<double>tempos_ls;
+	vector<double>custos;
+	vector<double>tempos;
 	std::clock_t start, end;
+	double count = 0;
+	int c;
 
-	double count_ls = 0;
+	std::cout << " Escolha uma das tecnicas a ser utilizadas:\n";
+	std::cout << " 1.Busca Local\n";
+	std::cout << " 2.Busca Local iterativa\n";
+	std::cout << " 3.Path Relinking + Busca Local Iterativa\n";
+	std::cout << " 4.Path Relinking Forward + Busca Local Iterativa\n";
+	std::cout << " 5.Path Relinking Backward + Busca Local Iterativa\n";
+	std::cout << " 6.Path Relinking Back and Forward + Busca Local Iterativa\n";
+	std::cout << " 7.Path Relinking Mixed + Busca Local Iterativa\n";
+	std::cout << " 8.Path Relinking Forward Truncated + Busca Local Iterativa\n";
+	std::cout << " 9.Path Relinking Backward Truncated + Busca Local Iterativa\n";
 
-	for(int i = 0 ; i <= 30 ; i++){
-		Solution solution(n,flow,dist,opt);
 
-		start = clock();
-		solution = local_search();
-		end = clock();
-
-		count_ls = double(end - start)/ double(CLOCKS_PER_SEC);
-		tempos_ls.push_back(count_ls);
-		custos_ls.push_back(solution.get_cost());
-	}
 	
-	vector<int>custos_ils;
-	vector<double>tempos_ils;
+	std::cin >> c ;
 
-	double count_ils = 0;	
+	switch(c){
+		case 1:
+			for(int i = 0 ; i <= 30 ; i++){
+	 			Solution solution(n,flow,dist,opt);
 
-	for(int i = 0 ; i <= 30 ; i++){
-		Solution solution(n,flow,dist,opt);
+	 			start = clock();
+	 			solution = local_search();
+	 			end = clock();
 
-		start = clock();
-		solution = iterative_local_search();
-		end = clock();
+	 			count = double(end - start)/ double(CLOCKS_PER_SEC);
+	 			tempos.push_back(count);
+	 			custos.push_back(solution.get_cost());
+	 		}	
+			break;
+		case 2:
+			for(int i = 0 ; i <= 30 ; i++){
+		 		Solution solution(n,flow,dist,opt);
 
-		count_ils = double(end - start)/ double(CLOCKS_PER_SEC);
-		tempos_ils.push_back(count_ils);
-		custos_ils.push_back(solution.get_cost());
+		 		start = clock();
+		 		solution = iterative_local_search();
+		 		end = clock();
+
+		 		count = double(end - start)/ double(CLOCKS_PER_SEC);
+	 			tempos.push_back(count);
+	 			custos.push_back(solution.get_cost());
+		 	}	
+			break; 
+		case 3:
+			for(int i = 0 ; i <= 30 ; i++){
+		 		Solution solution(n,flow,dist,opt);
+
+		 		start = clock();
+		 		solution = path_relinking();
+		 		end = clock();
+
+		 		count = double(end - start)/ double(CLOCKS_PER_SEC);
+	 			tempos.push_back(count);
+	 			custos.push_back(solution.get_cost());
+		 	}	
+			break; 
+		case 4:
+			for(int i = 0 ; i <= 30 ; i++){
+		 		Solution solution(n,flow,dist,opt);
+
+		 		start = clock();
+		 		solution = ils_path_relinking_forward();
+		 		end = clock();
+
+		 		count = double(end - start)/ double(CLOCKS_PER_SEC);
+	 			tempos.push_back(count);
+	 			custos.push_back(solution.get_cost());
+		 	}	
+			break; 
+		case 5:
+			for(int i = 0 ; i <= 30 ; i++){
+		 		Solution solution(n,flow,dist,opt);
+
+		 		start = clock();
+		 		solution = ils_path_relinking_backward();
+		 		end = clock();
+
+		 		count = double(end - start)/ double(CLOCKS_PER_SEC);
+	 			tempos.push_back(count);
+	 			custos.push_back(solution.get_cost());
+	 			
+		 	}	
+			break;
+		case 6:
+			for(int i = 0 ; i <= 30 ; i++){
+		 		Solution solution(n,flow,dist,opt);
+
+		 		start = clock();
+		 		solution = ils_path_relinking_back_and_forward();
+		 		end = clock();
+
+		 		count = double(end - start)/ double(CLOCKS_PER_SEC);
+	 			tempos.push_back(count);
+	 			custos.push_back(solution.get_cost());
+		 	}	
+			break;
+		case 7:
+			for(int i = 0 ; i <= 30 ; i++){
+		 		Solution solution(n,flow,dist,opt);
+
+		 		start = clock();
+		 		solution = ils_path_relinking_mixed();
+		 		end = clock();
+
+		 		count = double(end - start)/ double(CLOCKS_PER_SEC);
+	 			tempos.push_back(count);
+	 			custos.push_back(solution.get_cost());
+		 	}	
+			break;
+		case 8:
+			for(int i = 0 ; i <= 30 ; i++){
+		 		Solution solution(n,flow,dist,opt);
+
+		 		start = clock();
+		 		solution = ils_path_relinking_forward(0.6);
+		 		end = clock();
+
+		 		count = double(end - start)/ double(CLOCKS_PER_SEC);
+	 			tempos.push_back(count);
+	 			custos.push_back(solution.get_cost());
+		 	}	
+			break; 
+		case 9:
+			for(int i = 0 ; i <= 30 ; i++){
+		 		Solution solution(n,flow,dist,opt);
+
+		 		start = clock();
+		 		solution = ils_path_relinking_backward(0.6);
+		 		end = clock();
+
+		 		count = double(end - start)/ double(CLOCKS_PER_SEC);
+	 			tempos.push_back(count);
+	 			custos.push_back(solution.get_cost());
+		 	}	
+			break;  
 	}
+
+	
 
 	Solution opt_sol(n,flow,dist,opt);
 
-	int opt_cost= opt_sol.get_cost();
+	double opt_cost= opt_sol.get_cost();
 
-	Dados dados_ls = {custos_ls, tempos_ls, instance, n, opt_cost}; 
-	Dados dados_ils = {custos_ils, tempos_ils, instance, n, opt_cost}; 
+	Dados dados = {custos, tempos, instance, n, opt_cost}; 
 
-	calcEstatisticas(dados_ls);
-	calcEstatisticas(dados_ils);
+	calcEstatisticas(dados);
 
 	for(int i = 0; i < n; ++i)
 	{

@@ -11,11 +11,11 @@
 
 
 struct Dados {
-	std::vector<int> custos;
+	std::vector<double> custos;
 	std::vector<double> tempos;
 	std::string instance;
 	int tamanho;
-	int optimal_cost;
+	double optimal_cost;
 };
 
 double calcVariancia ( std::vector<double> valores, double media);

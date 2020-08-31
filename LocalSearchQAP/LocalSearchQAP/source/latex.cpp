@@ -8,7 +8,7 @@ std::string montar_cabecalho ()
 	cab = "\\begin{table}[H]\n";
     cab += "\\centering\n";
     cab += "\\begin{tabular}{c|c|c|c|c|c|c|c|} \\hline \\hline\n";
-    cab += "INST & AET(ms) & POSF(\\%) & DMinFC(\\%) & DMaxFC(\\%) & DAFC(\\%) & SDC \\\\ \\hline \\hline\n";
+    cab += "INST & AET(s) & POSF(\\%) & DMinFC(\\%) & DMaxFC(\\%) & DAFC(\\%) & SDC & Median & BSK \\\\ \\hline \\hline\n";
 
     return cab;
 }
@@ -39,11 +39,11 @@ void criar_tabelas_latex ()
 	{
 		while (!file.eof())
 		{
-			for (int i=0; i < 8; i++)
+			for (int i=0; i < 9; i++)
 			{
 				file >> aux;
 				linha += aux;
-				if ( i != 7) linha += " & ";
+				if ( i != 8) linha += " & ";
 				else linha += " \\\\ ";
 			}
 			latex << linha << std::endl;

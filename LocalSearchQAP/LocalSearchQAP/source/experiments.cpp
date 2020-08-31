@@ -1,8 +1,9 @@
 #include "../include/experiments.h"
+#include <cmath>
 
 using namespace std;
 
-double calcVariancia ( std::vector<int> valores, double media )
+double calcVariancia ( std::vector<double> valores, double media )
 {
 	double var = 0;
 	for (unsigned int i=0; i < valores.size(); i++)
@@ -10,35 +11,57 @@ double calcVariancia ( std::vector<int> valores, double media )
 	return var/(valores.size()-1);
 }
 
-double calcDistanciamento ( int valor, int referencia )
+double calcDistanciamento ( double valor, double referencia )
 {
-	return ( ((valor-referencia)*100)/referencia );
+	return ( (fabs(valor-referencia)*100)/referencia );
 }
 
 void calcEstatisticas ( Dados dados )
 {
 	std::sort(dados.custos.begin(), dados.custos.end());
 	int size_cost = dados.custos.size();
-
-	int min_cost = dados.custos[0];
-	int max_cost = dados.custos[size_cost-1];
-	int mediana = 0;
+	std::vector<double> distanciamentos;
+	
+	double mediana = 0;
 	int solucoes_otimas_encontrada = 0;
 
 	for (unsigned int i=0; i < dados.custos.size(); i++)
 		if (dados.custos[i] == dados.optimal_cost) 
-			solucoes_otimas_encontrada++;
+			solucoes_otimas_encontrada+=1;
+
+	for(unsigned int i = 0; i < dados.custos.size(); i++){
+		distanciamentos.push_back(calcDistanciamento(dados.custos[i],dados.optimal_cost));
+		std::cout << distanciamentos[i] << "\n";
+	}
+
+	double min_distanciamento = 0;
+	double max_distanciamento = 0;
+	double media_distanciamento = 0;
+
+
+	for(unsigned int i = 0; i < distanciamentos.size();i++){
+		if(min_distanciamento >= distanciamentos[i]){
+			min_distanciamento = distanciamentos[i];
+		}
+
+		if(max_distanciamento <= distanciamentos[i]){
+			max_distanciamento = distanciamentos[i];
+		}
+
+		media_distanciamento += distanciamentos[i];
+	}
+
+	media_distanciamento = media_distanciamento/distanciamentos.size();
 
 	double percentual_optimal_solutions_found = (solucoes_otimas_encontrada*100.00)/dados.custos.size(); 
-	if ( size_cost%2 == 0)
+	if ( size_cost%2 != 0)
 	{
-		mediana = dados.custos[size_cost/2 - 1] + dados.custos[size_cost/2];
+		mediana = distanciamentos[(distanciamentos.size()/2) - 1] + distanciamentos[distanciamentos.size()/2];
 		mediana /= 2;
-	} else mediana = dados.custos[size_cost/2];
+	} else mediana = distanciamentos[distanciamentos.size()/2];
 
-	double media_custo = calcMedia<int>(dados.custos);
 	double media_tempo = calcMedia<double>(dados.tempos);
-	double dp_custo = sqrt(calcVariancia(dados.custos, media_custo));
+	double dp_custo = sqrt(calcVariancia(distanciamentos, media_distanciamento));
 
 	std::ofstream out("archives/resultExecution.txt", std::ofstream::app);
 	if (!out.is_open()) std::cout << "\nNão abriu o arquivo!\n";
@@ -46,26 +69,31 @@ void calcEstatisticas ( Dados dados )
 	std::ofstream latex("archives/in_latex.dat", std::ofstream::app);
 	if (!latex.is_open()) std::cout << "\nNão abriu o arquivo!\n";
 
+
 	out << dados.instance << "\n";
 	out << "REPORT\n--------------------------------------------------\n";
 	out << "Average elapsed time: " << media_tempo << " ms" << std::endl;
 	out << "Percentual of optimal solutions found: " << percentual_optimal_solutions_found << "%" << std::endl;
-	out << "Min found cost: " << calcDistanciamento(min_cost, dados.optimal_cost) << "%" << std::endl;
-	out << "Max found cost: " << calcDistanciamento(max_cost, dados.optimal_cost) << "%" << std::endl;
-	out << "Average found cost: " << calcDistanciamento(media_custo, dados.optimal_cost) << "%" << std::endl; 
+	out << "Min found cost: " << min_distanciamento << "%" << std::endl;
+	out << "Max found cost: " << max_distanciamento << "%" << std::endl;
+	out << "Average found cost: " << media_distanciamento << "%" << std::endl; 
 	out << "Median: " << calcDistanciamento(mediana, dados.optimal_cost) << "%" << std::endl;
 	out << "Standard deviation of cost: " << dp_custo << std::endl;
+	out << "Median :" << mediana << std::endl;
+	out << "Best Cost Known :" << mediana << std::endl;
+
 	out << "--------------------------------------------------\n";
 	out.close();
 
 	latex << "\n" << dados.instance << "\n";
-	latex << dados.tamanho << std::endl;
 	latex << media_tempo << std::endl;
 	latex << std::fixed << std::setprecision(2) << percentual_optimal_solutions_found << std::endl;
-	latex << std::setprecision(2) << calcDistanciamento(min_cost, dados.optimal_cost) << std::endl;
-	latex << std::setprecision(2) << calcDistanciamento(max_cost, dados.optimal_cost) << std::endl;
-	latex << std::setprecision(2) << calcDistanciamento(media_custo, dados.optimal_cost) << std::endl; 
-	latex << std::setprecision(2) << dp_custo;
+	latex << std::setprecision(2) << min_distanciamento << std::endl;
+	latex << std::setprecision(2) << max_distanciamento << std::endl;
+	latex << std::setprecision(2) << media_distanciamento << std::endl; 
+	latex << std::setprecision(2) << dp_custo << std::endl;
+	latex << mediana << std::endl;
+	latex << dados.optimal_cost;
 	latex.close();
 
 }
