@@ -2,8 +2,8 @@
 Neste repositório em desenvolvimento contém algumas técnicas para resolução do Problema Quadrático de Alocação.
 
 # Técnicas implementas:
-..*Busca Local
-..*Busca Local Iterativa
+* Busca Local
+* Busca Local Iterativa
 
 # Compilação:
  Basta digitar o comando **_make_** no arquivo relacionado a técnica.
